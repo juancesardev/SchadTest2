@@ -1,0 +1,75 @@
+﻿@model IEnumerable<SchadTest.Models.Customer>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Customers</h1>
+
+<p>
+    <a asp-action="Create" class="btn-link"><i class="far fa-plus-square"></i> Create New</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustName)
+            </th>
+
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerType)
+            </th>
+            <th><i class="fas fa-pencil-alt"></i> Options</th>
+            <th class="text-center"><i class="fas fa-file-invoice-dollar"></i> Invoices</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustName)
+                <br />
+                    <p class="addressC"><u>Address:</u> @Html.DisplayFor(modelItem => item.Adress)</p>
+            </td>
+
+            <td class="text-center pt-4">
+                    @if(item.Status == true)
+                    {
+                        <i class="fas fa-check-circle text-success"></i>
+                    }
+                    else{
+                    <i class="fas fa-times-circle text-danger"></i>
+                    }
+            </td>
+                <td class="pt-4">
+                @Html.DisplayFor(modelItem => item.CustomerType.Description)
+            </td>
+            <td class="pt-4">
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn-link">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-link">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn-link">Delete</a>
+            </td>
+
+                <td class="pt-4">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <form asp-action="NewInvoice" asp-controller="DetailsTemp" method="get">
+                                <input type="hidden" value="@item.Id" name="intCustomer"/>
+                                <button type="submit" class="border-0 btn-link">New Invoice</button>
+                            </form>
+                        </div>
+                        <div class="col-sm-6">
+                            <form asp-action="Delete">
+                                <input type="hidden" value="@item.Id" />
+                                <button type="submit" class="border-0 btn-link">My Invoices</button>
+                            </form>
+                        </div>
+                    </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

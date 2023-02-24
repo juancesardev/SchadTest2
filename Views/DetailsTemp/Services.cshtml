@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "";
+}
+<option value="">Choose a Service</option>
+@if (ViewBag.qtySer > 0){
+    foreach (var it in ViewBag.services)
+    {
+        <option value="@it.Id">@it.Description</option>
+    }
+}
+else
+{
+    <option value="0">Error</option>
+}

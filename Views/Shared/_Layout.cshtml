@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SchadTest</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+    <link rel="stylesheet" href="~/SchadTest.styles.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/21ae795299.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3 class="text-white">Schad Test</h3>
+                <strong>Schad</strong>
+            </div>
+            <div class="pt-3 ps-2">
+                <a asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home text-danger"></i> Home</a>
+            </div>
+            <ul class="list-unstyled components">
+
+                <li class="active">
+                    <a href="#">
+                        
+                        CUSTOMERS
+                    </a>
+
+                </li>
+                <li>
+                    <a asp-controller="Customers" asp-action="Index">
+                        <i class="fas fa-users-cog"></i>
+                        Customers
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="CustomerTypes"><i class="fas fa-hospital-user"></i> Customer Type</a>
+                </li>
+
+                <li class="active">
+                    <a href="#">SERVICES</a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Services" asp-action="Index"><i class="fas fa-truck-moving"></i> Services</a>
+                </li>
+
+                <li>
+                    <a asp-area="" asp-controller="Services" asp-action="Create"><i class="fas fa-plus-square"></i> Create Services</a>
+                </li>
+
+
+
+
+                <li class="active">
+                    <a href="#">INVOICES</a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Invoices" asp-action="Index"><i class="fas fa-comment-dots"></i> Invoices</a>
+                </li>
+
+
+                <li>
+                    <a href="#">
+                        <i class="fas fa-question"></i>
+                        FAQ
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-paper-plane"></i>
+                        Contact
+                    </a>
+                </li>
+            </ul>
+
+
+        </nav>
+        <div id="content">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-danger">
+                        <i class="fas fa-chevron-circle-left"></i>
+                        <span>Menu</span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                   </div>
+                </div>
+            </nav>
+
+
+            <div class="container">
+                <main role="main" class="">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+            <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+    </div>
+    <footer class="divfooter footer text-muted">
+        <div class="container">
+            &copy; 2023 - SchadTest
+        </div>
+    </footer>
+</body>
+</html>

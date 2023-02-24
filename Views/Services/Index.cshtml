@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SchadTest.Models.Services>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Services</h1>
+
+<p>
+    <a asp-action="Create" class="btn-link"><i class="far fa-plus-square"></i> Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateAdd)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+               <p class="addressC">@Html.DisplayFor(modelItem => item.PriceDescription)</p>
+            </td>
+
+            <td class="text-center">
+                    @if(item.Status == true)
+                    {
+                        <i class="fas fa-check-circle text-success"></i>
+                    }
+                    else{
+                    <i class="fas fa-times-circle text-danger"></i>
+                    }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateAdd)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn-link">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-link">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn-link">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

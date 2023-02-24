@@ -1,0 +1,68 @@
+﻿@model IEnumerable<SchadTest.Models.Invoice>
+
+@{
+    ViewData["Title"] = "Index";
+    int count = 1;
+}
+
+<h1>INVOICES</h1>
+
+<p>
+    <a asp-action="Create" asp-controller="InvoiceDetails">Create New</a>
+</p>
+<table class="table" style="width:100%">
+    <thead>
+        <tr>
+            <th style="width:5%">
+                #
+            </th>
+            <th style="width:10%">
+                Invoice Id
+            </th>
+            <th class="text-end" style="width:13%">
+                @Html.DisplayNameFor(model => model.TotalItbis)
+            </th>
+            <th class="text-end" style="width:13%">
+                @Html.DisplayNameFor(model => model.SubTotal)
+            </th>
+            <th class="text-end" style="width:13%">
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th style="width:26%">
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th class="text-center" style="width:20%">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @count
+                </td>
+                <td>
+                    @item.Id
+                </td>
+                <td class="text-end">
+                    @Html.DisplayFor(modelItem => item.TotalItbis)
+                </td>
+                <td class="text-end">
+                    @Html.DisplayFor(modelItem => item.SubTotal)
+                </td>
+                <td class="text-end">
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.CustName)
+                </td>
+                <td class="text-center">
+                    <a asp-action="Details" asp-controller="InvoiceDetails" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+
+            count++;
+        }
+    </tbody>
+</table>

@@ -1,0 +1,35 @@
+import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap') 
+
+html {
+  font-size: 14px;
+  color: darkolivegreen;
+}
+
+.spanMsg {
+    font-size: 12px;
+    color: #808080;
+}
+
+.addressC {
+    font-size: 14px;
+    color: #808080;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Raleway', sans-serif;
+    color: #808080;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}

@@ -1,0 +1,176 @@
+﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@model SchadTest.Models.Details_Temp
+<script src="~/js/jquery-3.6.0.min.js"></script>
+@{
+    decimal itbis_ = 0;
+    decimal percentItbis = 0.18M;
+    decimal SubTot = 0;
+    decimal totalItbis = 0;
+    decimal allTotal = 0;
+}
+
+<h4>New Invoice</h4>
+<hr />
+<form asp-action="AddInvoice" asp-controller="DetailsTemp" method="post">
+    <div class="table-responsive">
+        <table class="table table-bordered table-primary" style="width:100%">
+            <thead>
+                <tr>
+                    <th style="width:35%"><b>Select a Service:</b></th>
+                    <th style="width:35%"><b>Price:</b></th>
+                    <th style="width:15%"><b>Quantity:</b></th>
+                    <th style="width:15%">Click to add</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="selector-catg">
+                            <select class="form-select" name="ServiceId" required></select>
+
+                            <script type="text/javascript">
+                                $(document).ready(function () {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "Services",
+                                        success: function (response) {
+                                            $('.selector-catg select').html(response).fadeIn();
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="selectCatg">
+                            <select class="form-select" name="price" id="c" required>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $(".selector-catg select").change(function () {
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "Service?id=" + $(".selector-catg select").val(),
+                                                success: function (response) {
+                                                    $('.selectCatg select').html(response).fadeIn();
+                                                }
+                                            });
+                                        });
+                                    });
+                                </script>
+                            </select>
+                        </div>
+                    </td>
+
+                    <td>
+                        
+                            <input class="form-control" type="number" name="qty" value="1" />
+                                                                     
+                    </td>
+                    <td>
+                        <button type="submit" class="btn-primary form-control"><i class="far fa-plus-square"></i> Add</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <input type="hidden" value="@ViewData["intCustomer"]" name="intCustomer" />
+    <input type="hidden" value="@ViewData["Head"]" name="head" />
+    <input type="hidden" value="@ViewData["HeadId"]" name="headid" />
+</form>
+<hr />
+<div class="">
+    <table class="table table-striped" style="width:100%">
+        <h3>CUSTOMER: @ViewData["CustomerName"]</h3>
+    <thead class="table-primary">
+      <tr>
+                <th style="width:8%">Service Id</th>
+                <th style="width:45%">Description</th>
+                <th style="width:9%" class="text-center">Qty</th>
+                <th style="width:17%" class="text-end">ITBIS</th>
+                <th style="width:17%" class="text-end">TOTAL</th>
+                <th style="width:4%"></th>
+      </tr>
+    </thead>
+    <tbody>
+            @if (ViewBag.allServices != null)
+            {
+                foreach (var item in ViewBag.allServices)
+                {
+                    if(item.Price > 0){
+                        itbis_ = (item.Price * percentItbis);
+                    }
+                    <tr>
+                        <td>@item.ServiceId</td>
+                        <td>@item.Description</td>
+                        <td class="text-center">@item.Qty</td>
+                        <td class="text-end">@itbis_.ToString("#,##0.00")</td>
+                        <td class="text-end">@item.Price.ToString("#,##0.00")</td>
+                        <td>
+                            <form asp-action="Delete" asp-controller="DetailsTemp" method="post">
+                                <input asp-for="Id" type="hidden" value="@item.Id">
+                                <button type="submit" class="border-0"><i class="fas fa-trash-alt text-danger"></i></button>
+                                <input type="hidden" value="@ViewData["intCustomer"]" name="intCustomer" />
+                                <input type="hidden" value="@ViewData["HeadId"]" name="hId" />
+                            </form>
+                        </td>
+                    </tr>
+                    SubTot = SubTot + (item.Price*item.Qty);
+                    totalItbis = SubTot * percentItbis;
+                    allTotal = SubTot + totalItbis;
+
+                }
+                
+            }
+
+
+            <tr class ="border-top border-dark">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-end">SUB-TOTAL</td>
+                <td class="text-end"><b>@SubTot.ToString("#,##0.00")</b></td>
+                <td class="border-top border-dark"></td>
+            </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="text-end border-top border-dark">ITBIS</td>
+                <td class="text-end border-top border-dark"><b>@totalItbis.ToString("#,##0.00")</b></td>
+                <td class="border-top border-dark"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="text-end border-top border-dark">TOTAL</td>
+                <td class="text-end border-top border-dark" style="font-size:20px"><b>@allTotal.ToString("#,##0.00")</b></td>
+                <td class="border-top border-dark"></td>
+      </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-center">
+                    <form asp-action="AddServices" asp-controller="DetailsTemp" method="post">
+                        <button type="submit" class="btn btn-success">FINALIZAR</button>
+                        <input type="hidden" value="@ViewData["intCustomer"]" name="intCustomer" />
+                        <input type="hidden" value="@ViewData["HeadId"]" name="hId" />
+                        <input type="hidden" value="@ViewData["Head"]" name="head" />
+                        <input type="hidden" value="@totalItbis" name="it" />
+                        <input type="hidden" value="@SubTot" name="st" />
+                        <input type="hidden" value="@allTotal" name="to" />
+                    </form>
+                </td>
+                <td class="text-center" style="font-size:20px">
+
+                </td>
+                <td class="border-top border-dark"></td>
+            </tr>
+
+    </tbody>
+  </table>
+</div>
